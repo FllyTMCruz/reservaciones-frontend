@@ -4,7 +4,10 @@
     <p>Gestión global de usuarios y asignación de roles del sistema.</p>
   </header>
 
-  <div class="tabla-responsive">
+  <p *ngIf="cargando()">Cargando usuarios...</p>
+  <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
+
+  <div class="tabla-responsive" *ngIf="!cargando() && !errorMensaje()">
     <table class="tabla-usuarios">
       <thead>
         <tr>
@@ -15,16 +18,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of usuarios">
+        <tr *ngFor="let user of usuarios()">
           <td>{{ user.nombre }}</td>
-          <td>{{ user.email }}</td>
+          <td>{{ user.correo }}</td>
           <td>
             <span class="badge" [ngClass]="user.rol.toLowerCase()">
               {{ user.rol }}
             </span>
           </td>
           <td>
-            <select #selectRol (change)="cambiarRol(user.id, selectRol.value)" [value]="user.rol">
+            <select #selectRol (change)="cambiarRol(user.id_usuario, selectRol.value)" [value]="user.rol">
               <option value="Cliente">Cliente</option>
               <option value="Coordinador">Coordinador</option>
               <option value="Administración">Administración</option>

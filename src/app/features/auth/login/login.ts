@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -15,24 +15,26 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  // credenciales se queda como objeto normal: [(ngModel)] SÍ notifica a Angular
+  // automáticamente incluso sin zone.js.
   credenciales = {
     email: '',
     password: ''
   };
 
-  cargando = false;
-  errorMensaje = '';
+  cargando = signal(false);
+  errorMensaje = signal('');
 
   async iniciarSesion() {
-    this.errorMensaje = '';
-    this.cargando = true;
+    this.errorMensaje.set('');
+    this.cargando.set(true);
     try {
       await this.authService.iniciarSesion(this.credenciales.email, this.credenciales.password);
       this.router.navigate(['/calendario']);
     } catch (err: any) {
-      this.errorMensaje = 'Correo o contraseña incorrectos.';
+      this.errorMensaje.set('Correo o contraseña incorrectos.');
     } finally {
-      this.cargando = false;
+      this.cargando.set(false);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { EspaciosService } from '../../core/services/espacios.service';
@@ -15,29 +15,30 @@ export class Espacios implements OnInit {
   private authService = inject(AuthService);
   private espaciosService = inject(EspaciosService);
 
-  rolUsuario = '';
-  puedeEditar = false;
-  listaEspacios: Espacio[] = [];
-  cargando = true;
-  errorMensaje = '';
+  rolUsuario = signal('');
+  puedeEditar = signal(false);
+  listaEspacios = signal<Espacio[]>([]);
+  cargando = signal(true);
+  errorMensaje = signal('');
 
   async ngOnInit() {
-    this.rolUsuario = await this.authService.getRolActual();
-    this.puedeEditar = this.rolUsuario === 'Administración' || this.rolUsuario === 'Coordinador';
+    const rol = await this.authService.getRolActual();
+    this.rolUsuario.set(rol);
+    this.puedeEditar.set(rol === 'Administración' || rol === 'Coordinador');
     this.cargarEspacios();
   }
 
   cargarEspacios() {
-    this.cargando = true;
-    this.errorMensaje = '';
+    this.cargando.set(true);
+    this.errorMensaje.set('');
     this.espaciosService.listar().subscribe({
       next: (data) => {
-        this.listaEspacios = data;
-        this.cargando = false;
+        this.listaEspacios.set(data);
+        this.cargando.set(false);
       },
       error: () => {
-        this.errorMensaje = 'No se pudieron cargar los espacios.';
-        this.cargando = false;
+        this.errorMensaje.set('No se pudieron cargar los espacios.');
+        this.cargando.set(false);
       }
     });
   }

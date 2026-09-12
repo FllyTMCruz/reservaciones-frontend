@@ -3,21 +3,10 @@
     <h2>Gestión de Reservaciones</h2>
     <p>Selecciona una fecha para agendar un nuevo evento.</p>
   </header>
-<div class="contenedor-calendario">
-  <header class="cabecera">
-    <h2>Gestión de Reservaciones</h2>
-    <p>Selecciona una fecha para agendar un nuevo evento.</p>
-  </header>
 
-  <p *ngIf="errorMensaje" class="error-auth">{{ errorMensaje }}</p>
+  <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
 
   <div class="calendario-wrapper">
-    <full-calendar [options]="calendarOptions"></full-calendar>
-  </div>
-</div>
-
-  <!-- El componente de FullCalendar enlazado a nuestras opciones -->
-  <div class="calendario-wrapper">
-    <full-calendar [options]="calendarOptions"></full-calendar>
+    <full-calendar [options]="calendarOptions()"></full-calendar>
   </div>
 </div>
