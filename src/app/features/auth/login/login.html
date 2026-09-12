@@ -15,9 +15,11 @@
         <input type="password" id="password" name="password" [(ngModel)]="credenciales.password" required>
       </div>
       
-      <button type="submit" class="btn-bloque">Entrar</button>
+      <button type="submit" class="btn-bloque" [disabled]="cargando">
+        {{ cargando ? 'Entrando...' : 'Entrar' }}
+      </button>
     </form>
-    
+    <p *ngIf="errorMensaje" class="error-auth">{{ errorMensaje }}</p>
     <div class="pie-auth">
       ¿No tienes una cuenta? <a routerLink="/registro">Regístrate aquí</a>
     </div>

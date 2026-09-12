@@ -40,6 +40,31 @@ export class AuthService {
     
     return data;
   }
+    // Inicia sesión con correo y contraseña
+  async iniciarSesion(email: string, password: string) {
+    const { data, error } = await this.supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  }
+
+  // Cierra la sesión actual
+  async cerrarSesion() {
+    await this.supabase.auth.signOut();
+  }
+
+  // Útil para el guard de "solo usuarios logueados"
+  async estaAutenticado(): Promise<boolean> {
+    const { data } = await this.supabase.auth.getSession();
+    return !!data.session;
+  }
+  
   //Obtiene el Token JWT del usuario autenticado actualmente
    async getToken(): Promise<string | null> {
         const {data}= await this.supabase.auth.getSession();
