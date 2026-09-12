@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -21,12 +21,12 @@ export class Registro {
     password: ''
   };
 
-  cargando = false;
-  errorMensaje = '';
+  cargando = signal(false);
+  errorMensaje = signal('');
 
   async registrarUsuario() {
-    this.errorMensaje = '';
-    this.cargando = true;
+    this.errorMensaje.set('');
+    this.cargando.set(true);
     try {
       await this.authService.registrarUsuario(
         this.credenciales.email,
@@ -36,9 +36,9 @@ export class Registro {
       alert('¡Registro exitoso! Por favor, inicia sesión.');
       this.router.navigate(['/login']);
     } catch (err: any) {
-      this.errorMensaje = 'No se pudo completar el registro. ' + (err?.message ?? '');
+      this.errorMensaje.set('No se pudo completar el registro. ' + (err?.message ?? ''));
     } finally {
-      this.cargando = false;
+      this.cargando.set(false);
     }
   }
 }

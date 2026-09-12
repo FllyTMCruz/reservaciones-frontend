@@ -1,6 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../core/services/auth.service';
+import { UsuariosService } from '../../core/services/usuarios.service';
+import { Usuario, RolUsuario } from '../../core/models/usuario.model';
 
 @Component({
   selector: 'app-administracion',
@@ -10,23 +11,39 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrl: './administracion.css'
 })
 export class Administracion implements OnInit {
-  private authService = inject(AuthService);
+  private usuariosService = inject(UsuariosService);
 
-  // Lista de usuarios simulada (posteriormente se conectará al backend de FastAPI)
-  usuarios = [
-    { id: '1', email: 'admin@sistema.com', nombre: 'Carlos Admin', rol: 'Administración' },
-    { id: '2', email: 'coordinador@sistema.com', nombre: 'Ana Coordinadora', rol: 'Coordinador' },
-    { id: '3', email: 'cliente@sistema.com', nombre: 'Juan Cliente', rol: 'Cliente' }
-  ];
+  usuarios = signal<Usuario[]>([]);
+  cargando = signal(true);
+  errorMensaje = signal('');
 
-  async ngOnInit() {
-    // Validación de seguridad inicial en la vista
-    const rolActual = await this.authService.getRolActual();
-    console.log('Panel de administración cargado por rol:', rolActual);
+  ngOnInit() {
+    this.cargarUsuarios();
   }
 
-  cambiarRol(usuarioId: string, nuevoRol: string) {
-    // Lógica para enviar el cambio de rol al backend o Supabase
-    alert(`Actualizando el rol del usuario ID ${usuarioId} a: ${nuevoRol}`);
+  cargarUsuarios() {
+    this.cargando.set(true);
+    this.errorMensaje.set('');
+    this.usuariosService.listar().subscribe({
+      next: (data) => {
+        this.usuarios.set(data);
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.errorMensaje.set('No se pudo cargar la lista de usuarios.');
+        this.cargando.set(false);
+      }
+    });
+  }
+
+  cambiarRol(idUsuario: string, nuevoRol: string) {
+    this.usuariosService.cambiarRol(idUsuario, nuevoRol as RolUsuario).subscribe({
+      next: (usuarioActualizado) => {
+        this.usuarios.update(lista =>
+          lista.map(u => (u.id_usuario === idUsuario ? usuarioActualizado : u))
+        );
+      },
+      error: () => alert('No se pudo actualizar el rol.')
+    });
   }
 }

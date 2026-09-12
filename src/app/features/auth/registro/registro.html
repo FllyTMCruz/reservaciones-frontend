@@ -5,7 +5,6 @@
     
     <form (ngSubmit)="registrarUsuario()">
       
-      <!-- Nuevo campo para el Nombre -->
       <div class="grupo-input">
         <label for="nombre">Nombre Completo</label>
         <input type="text" id="nombre" name="nombre" [(ngModel)]="credenciales.nombre" required>
@@ -21,11 +20,11 @@
         <input type="password" id="password" name="password" [(ngModel)]="credenciales.password" required>
       </div>
       
-      <button type="submit" class="btn-bloque btn-registro" [disabled]="cargando">
-        {{ cargando ? 'Registrando...' : 'Registrarme' }}
+      <button type="submit" class="btn-bloque btn-registro" [disabled]="cargando()">
+        {{ cargando() ? 'Registrando...' : 'Registrarme' }}
       </button>
     </form>
-    <p *ngIf="errorMensaje" class="error-auth">{{ errorMensaje }}</p>
+    <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
     <div class="pie-auth">
       ¿Ya tienes una cuenta? <a routerLink="/login">Inicia sesión aquí</a>
     </div>

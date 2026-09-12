@@ -3,7 +3,6 @@
     <h2>Iniciar Sesión</h2>
     <p>Ingresa tus datos para acceder al sistema de reservaciones.</p>
     
-    <!-- (ngSubmit) ejecuta nuestra función cuando presionan el botón o dan Enter -->
     <form (ngSubmit)="iniciarSesion()">
       <div class="grupo-input">
         <label for="email">Correo Electrónico</label>
@@ -15,11 +14,11 @@
         <input type="password" id="password" name="password" [(ngModel)]="credenciales.password" required>
       </div>
       
-      <button type="submit" class="btn-bloque" [disabled]="cargando">
-        {{ cargando ? 'Entrando...' : 'Entrar' }}
+      <button type="submit" class="btn-bloque" [disabled]="cargando()">
+        {{ cargando() ? 'Entrando...' : 'Entrar' }}
       </button>
     </form>
-    <p *ngIf="errorMensaje" class="error-auth">{{ errorMensaje }}</p>
+    <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
     <div class="pie-auth">
       ¿No tienes una cuenta? <a routerLink="/registro">Regístrate aquí</a>
     </div>
