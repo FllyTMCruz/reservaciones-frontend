@@ -1,0 +1,46 @@
+.contenedor-perfil {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.cabecera h2 { margin: 0 0 20px 0; color: #333; }
+
+.tarjeta-perfil {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid #e0e0e0;
+}
+
+.grupo-input { margin-bottom: 15px; }
+.grupo-input label { display: block; margin-bottom: 5px; font-weight: bold; color: #444; }
+.grupo-input input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.grupo-input input:disabled { background-color: #f1f1f1; color: #666; }
+
+.btn-primario {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #0056b3;
+  color: white;
+}
+.btn-primario:hover { opacity: 0.8; }
+
+.mensaje-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}

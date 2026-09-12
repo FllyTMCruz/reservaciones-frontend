@@ -22,4 +22,30 @@ export class EventosService {
   }): Observable<EventoReservacion> {
     return this.http.post<EventoReservacion>(`${this.baseUrl}/`, data);
   }
+
+  actualizar(
+    idEvento: number,
+    data: Partial<{
+      id_espacio: number;
+      fecha_inicio: string;
+      fecha_fin: string;
+      tipo_evento: string;
+      invitados_estimados: number;
+    }>
+  ): Observable<EventoReservacion> {
+    return this.http.put<EventoReservacion>(`${this.baseUrl}/${idEvento}`, data);
+  }
+
+  eliminar(idEvento: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${idEvento}`);
+  }
+
+  cambiarEstado(
+    idEvento: number,
+    estado: 'Pendiente' | 'Confirmado' | 'Cancelado'
+  ): Observable<EventoReservacion> {
+    return this.http.patch<EventoReservacion>(`${this.baseUrl}/${idEvento}/estado`, {
+      estado_evento: estado
+    });
+  }
 }

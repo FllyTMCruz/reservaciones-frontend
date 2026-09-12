@@ -1,23 +1,52 @@
 <div class="contenedor-espacios">
   <header class="cabecera">
     <h2>Espacios Disponibles</h2>
-    <button *ngIf="puedeEditar()" class="btn-primario">
+    <button *ngIf="puedeEditar()" class="btn-primario" (click)="abrirCreacion()">
       + Crear Nuevo Espacio
     </button>
   </header>
 
   <p *ngIf="cargando()">Cargando espacios...</p>
   <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
+  <p *ngIf="mensajeExito()" class="mensaje-exito">{{ mensajeExito() }}</p>
 
-  <div class="grid-espacios" *ngIf="!cargando() && !errorMensaje()">
+  <div class="grid-espacios" *ngIf="!cargando()">
     <div class="tarjeta-espacio" *ngFor="let espacio of listaEspacios()">
       <h3>{{ espacio.nombre_espacio }}</h3>
       <p class="capacidad"><strong>Capacidad:</strong> {{ espacio.capacidad_maxima }} personas</p>
 
       <div class="acciones" *ngIf="puedeEditar()">
-        <button class="btn-secundario">Editar</button>
-        <button class="btn-peligro">Eliminar</button>
+        <button class="btn-secundario" (click)="abrirEdicion(espacio)">Editar</button>
+        <button class="btn-peligro" (click)="eliminarEspacio(espacio)">Eliminar</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Formulario de crear/editar espacio -->
+<div class="fondo-modal" *ngIf="mostrarFormulario()">
+  <div class="tarjeta-modal">
+    <h3>{{ modoEdicion() ? 'Editar espacio' : 'Nuevo espacio' }}</h3>
+
+    <form (ngSubmit)="guardarEspacio()">
+      <div class="grupo-input">
+        <label for="nombreEspacio">Nombre del espacio</label>
+        <input type="text" id="nombreEspacio" name="nombreEspacio" [(ngModel)]="formulario.nombre_espacio" required>
+      </div>
+
+      <div class="grupo-input">
+        <label for="capacidad">Capacidad máxima</label>
+        <input type="number" id="capacidad" name="capacidad" [(ngModel)]="formulario.capacidad_maxima" min="1" max="300" required>
+      </div>
+
+      <p *ngIf="errorFormulario()" class="error-auth">{{ errorFormulario() }}</p>
+
+      <div class="acciones-modal">
+        <button type="button" class="btn-secundario" (click)="cerrarFormulario()">Cancelar</button>
+        <button type="submit" class="btn-primario" [disabled]="guardando()">
+          {{ guardando() ? 'Guardando...' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
   </div>
 </div>

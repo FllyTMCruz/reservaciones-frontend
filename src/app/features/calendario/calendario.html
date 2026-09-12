@@ -1,12 +1,95 @@
 <div class="contenedor-calendario">
   <header class="cabecera">
     <h2>Gestión de Reservaciones</h2>
-    <p>Selecciona una fecha para agendar un nuevo evento.</p>
+    <p>Selecciona una fecha para agendar un nuevo evento, o haz clic en una reservación existente para ver el detalle.</p>
   </header>
 
   <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
+  <p *ngIf="mensajeExito()" class="mensaje-exito">{{ mensajeExito() }}</p>
 
   <div class="calendario-wrapper">
     <full-calendar [options]="calendarOptions()"></full-calendar>
+  </div>
+</div>
+
+<!-- Formulario de crear/editar reservación -->
+<div class="fondo-modal" *ngIf="mostrarFormulario()">
+  <div class="tarjeta-modal">
+    <h3>{{ modoEdicion() ? 'Editar reservación' : 'Nueva reservación' }}</h3>
+
+    <form (ngSubmit)="guardarReservacion()">
+      <div class="grupo-input">
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha" name="fecha" [(ngModel)]="formulario.fecha" required>
+      </div>
+
+      <div class="fila-doble">
+        <div class="grupo-input">
+          <label for="horaInicio">Hora de inicio</label>
+          <input type="time" id="horaInicio" name="horaInicio" [(ngModel)]="formulario.horaInicio" required>
+        </div>
+        <div class="grupo-input">
+          <label for="horaFin">Hora de fin</label>
+          <input type="time" id="horaFin" name="horaFin" [(ngModel)]="formulario.horaFin" required>
+        </div>
+      </div>
+
+      <div class="grupo-input">
+        <label for="espacio">Espacio</label>
+        <select id="espacio" name="espacio" [(ngModel)]="formulario.id_espacio" required>
+          <option [ngValue]="null" disabled>Selecciona un espacio</option>
+          <option *ngFor="let espacio of listaEspacios()" [ngValue]="espacio.id_espacio">
+            {{ espacio.nombre_espacio }} (máx. {{ espacio.capacidad_maxima }})
+          </option>
+        </select>
+      </div>
+
+      <div class="grupo-input">
+        <label for="tipoEvento">Tipo de evento</label>
+        <input type="text" id="tipoEvento" name="tipoEvento" [(ngModel)]="formulario.tipo_evento"
+               placeholder="Ej. Boda, graduación, junta de trabajo" required>
+      </div>
+
+      <div class="grupo-input">
+        <label for="invitados">Invitados estimados</label>
+        <input type="number" id="invitados" name="invitados" [(ngModel)]="formulario.invitados_estimados"
+               min="1" max="300" required>
+      </div>
+
+      <p *ngIf="errorFormulario()" class="error-auth">{{ errorFormulario() }}</p>
+
+      <div class="acciones-modal">
+        <button type="button" class="btn-secundario" (click)="cerrarFormulario()">Cancelar</button>
+        <button type="submit" class="btn-primario" [disabled]="guardandoReservacion()">
+          {{ guardandoReservacion() ? 'Guardando...' : (modoEdicion() ? 'Guardar cambios' : 'Reservar') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Panel de detalle de una reservación -->
+<div class="fondo-modal" *ngIf="eventoSeleccionado() as evento">
+  <div class="tarjeta-modal">
+    <h3>{{ evento.tipo_evento }}</h3>
+    <p><strong>Espacio:</strong> {{ nombreEspacio(evento.id_espacio) }}</p>
+    <p><strong>Inicio:</strong> {{ evento.fecha_inicio | date:'medium' }}</p>
+    <p><strong>Fin:</strong> {{ evento.fecha_fin | date:'medium' }}</p>
+    <p><strong>Invitados estimados:</strong> {{ evento.invitados_estimados }}</p>
+    <p><strong>Estado:</strong> <span class="badge-estado">{{ evento.estado_evento }}</span></p>
+
+    <div class="acciones-modal" *ngIf="esDueno(evento)">
+      <button class="btn-secundario" (click)="abrirEdicion(evento)" [disabled]="procesandoDetalle()">Editar</button>
+      <button class="btn-peligro" (click)="cancelarReservacion(evento)" [disabled]="procesandoDetalle()">Cancelar reservación</button>
+    </div>
+
+    <div class="acciones-modal" *ngIf="esGestion()">
+      <button class="btn-confirmar" (click)="cambiarEstado(evento, 'Confirmado')" [disabled]="procesandoDetalle()">Confirmar</button>
+      <button class="btn-peligro" (click)="cambiarEstado(evento, 'Cancelado')" [disabled]="procesandoDetalle()">Cancelar (gestión)</button>
+    </div>
+
+    <div class="acciones-modal">
+      <button type="button" class="btn-secundario" (click)="cerrarDetalle()">Cerrar</button>
+    </div>
   </div>
 </div>
