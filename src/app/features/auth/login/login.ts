@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // <-- Necesario para capturar los inputs
+import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -15,16 +15,24 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  // Objeto para guardar lo que el usuario escriba
   credenciales = {
     email: '',
     password: ''
   };
 
+  cargando = false;
+  errorMensaje = '';
+
   async iniciarSesion() {
-    console.log('Intentando iniciar sesión con:', this.credenciales);
-    // Aquí conectaremos la función real de FastAPI/Supabase más adelante.
-    // Por ahora, simulamos un inicio de sesión exitoso y lo mandamos al calendario:
-    this.router.navigate(['/calendario']);
+    this.errorMensaje = '';
+    this.cargando = true;
+    try {
+      await this.authService.iniciarSesion(this.credenciales.email, this.credenciales.password);
+      this.router.navigate(['/calendario']);
+    } catch (err: any) {
+      this.errorMensaje = 'Correo o contraseña incorrectos.';
+    } finally {
+      this.cargando = false;
+    }
   }
 }

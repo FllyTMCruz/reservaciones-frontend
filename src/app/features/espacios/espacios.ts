@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Necesario para usar *ngIf y *ngFor
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { EspaciosService } from '../../core/services/espacios.service';
+import { Espacio } from '../../core/models/espacio.model';
 
 @Component({
   selector: 'app-espacios',
@@ -11,22 +13,32 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class Espacios implements OnInit {
   private authService = inject(AuthService);
-  
-  rolUsuario: string = '';
-  puedeEditar: boolean = false; 
-  
-  // Datos de prueba (Luego los traeremos de FastAPI)
-  listaEspacios = [
-    { id: 1, nombre: 'Sala de Juntas A', capacidad: 10, descripcion: 'Proyector, pantalla y pizarra blanca.' },
-    { id: 2, nombre: 'Auditorio Principal', capacidad: 50, descripcion: 'Micrófonos, escenario y sonido envolvente.' },
-    { id: 3, nombre: 'Terraza Abierta', capacidad: 25, descripcion: 'Espacio al aire libre ideal para eventos casuales.' }
-  ];
+  private espaciosService = inject(EspaciosService);
+
+  rolUsuario = '';
+  puedeEditar = false;
+  listaEspacios: Espacio[] = [];
+  cargando = true;
+  errorMensaje = '';
 
   async ngOnInit() {
-    // Al cargar la pantalla, leemos el rol del usuario actual
     this.rolUsuario = await this.authService.getRolActual();
-    
-    // Verificamos si tiene permisos elevados para ocultar/mostrar botones
     this.puedeEditar = this.rolUsuario === 'Administración' || this.rolUsuario === 'Coordinador';
+    this.cargarEspacios();
+  }
+
+  cargarEspacios() {
+    this.cargando = true;
+    this.errorMensaje = '';
+    this.espaciosService.listar().subscribe({
+      next: (data) => {
+        this.listaEspacios = data;
+        this.cargando = false;
+      },
+      error: () => {
+        this.errorMensaje = 'No se pudieron cargar los espacios.';
+        this.cargando = false;
+      }
+    });
   }
 }
