@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8000/api',
-  publicKeys: {
-    // Agregar aquí únicamente llaves diseñadas para exponerse al cliente.
-  },
-} as const;
+  
+  supabaseUrl: 'https://hwjggpjyehoekqpmnkdz.supabase.co',
+  supabaseKey: 'process.env.eImV8l6pXTrouilS'  
+} 

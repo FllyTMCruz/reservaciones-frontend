@@ -1,0 +1,62 @@
+.contenedor-espacios {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Permite que el botón baje en celulares si no cabe */
+  gap: 15px;
+}
+
+.grid-espacios {
+  display: grid;
+  /* Magia Responsive: Crea columnas de mínimo 300px que se expanden */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.tarjeta-espacio {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  background-color: #ffffff;
+  transition: transform 0.2s;
+}
+
+.tarjeta-espacio:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.tarjeta-espacio h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.acciones {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Estilos de botones (Idealmente luego se moverán a shared/styles.css) */
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+button:hover { opacity: 0.8; }
+
+.btn-primario { background-color: #0056b3; color: white; }
+.btn-secundario { background-color: #6c757d; color: white; }
+.btn-peligro { background-color: #dc3545; color: white; }

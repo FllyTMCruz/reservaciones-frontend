@@ -1,0 +1,59 @@
+.auth-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  font-family: Arial, sans-serif;
+}
+
+.tarjeta-auth {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.tarjeta-auth h2 { margin-top: 0; color: #333; }
+.tarjeta-auth p { color: #666; margin-bottom: 25px; }
+
+.grupo-input { margin-bottom: 20px; }
+
+.grupo-input label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.grupo-input input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Evita que el input se salga de la caja */
+}
+
+.btn-bloque {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.btn-bloque:hover { background-color: #0b5ed7; }
+
+.pie-auth {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.pie-auth a { color: #0d6efd; text-decoration: none; }
+.pie-auth a:hover { text-decoration: underline; }

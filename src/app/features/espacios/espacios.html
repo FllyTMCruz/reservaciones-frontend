@@ -1,0 +1,25 @@
+<div class="contenedor-espacios">
+  <header class="cabecera">
+    <h2>Espacios Disponibles</h2>
+    
+    <!-- Este botón SOLO se dibuja si puedeEditar es verdadero -->
+    <button *ngIf="puedeEditar" class="btn-primario">
+      + Crear Nuevo Espacio
+    </button>
+  </header>
+
+  <div class="grid-espacios">
+    <!-- Iteramos sobre la lista de espacios para crear las tarjetas -->
+    <div class="tarjeta-espacio" *ngFor="let espacio of listaEspacios">
+      <h3>{{ espacio.nombre }}</h3>
+      <p class="capacidad"><strong>Capacidad:</strong> {{ espacio.capacidad }} personas</p>
+      <p class="descripcion">{{ espacio.descripcion }}</p>
+      
+      <!-- Controles de edición SOLO visibles para roles con permiso -->
+      <div class="acciones" *ngIf="puedeEditar">
+        <button class="btn-secundario">Editar</button>
+        <button class="btn-peligro">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="contenedor-admin">
+  <header class="cabecera">
+    <h2>Panel de Administración</h2>
+    <p>Gestión global de usuarios y asignación de roles del sistema.</p>
+  </header>
+
+  <div class="tabla-responsive">
+    <table class="tabla-usuarios">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Correo Electrónico</th>
+          <th>Rol Actual</th>
+          <th>Cambiar Rol</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of usuarios">
+          <td>{{ user.nombre }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <span class="badge" [ngClass]="user.rol.toLowerCase()">
+              {{ user.rol }}
+            </span>
+          </td>
+          <td>
+            <select #selectRol (change)="cambiarRol(user.id, selectRol.value)" [value]="user.rol">
+              <option value="Cliente">Cliente</option>
+              <option value="Coordinador">Coordinador</option>
+              <option value="Administración">Administración</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
