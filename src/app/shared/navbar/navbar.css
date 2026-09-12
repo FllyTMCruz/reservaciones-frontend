@@ -39,3 +39,24 @@
   border-radius: 12px;
   font-size: 0.85em;
 }
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-cerrar-sesion {
+  background-color: transparent;
+  color: #adb5bd;
+  border: 1px solid #495057;
+  border-radius: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.btn-cerrar-sesion:hover {
+  color: white;
+  border-color: #adb5bd;
+}

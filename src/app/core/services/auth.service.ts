@@ -77,4 +77,10 @@ async getRolActual(): Promise<string> {
   // Buscamos el rol guardado. Si no existe, recordamos que el backend asume 'Cliente' por defecto.
   return data.session?.user?.user_metadata?.['rol'] || 'Cliente';
 }
+
+    // Obtiene el id (UUID) del usuario logueado actualmente, o null si no hay sesión
+    async getIdUsuarioActual(): Promise<string | null> {
+      const { data } = await this.supabase.auth.getSession();
+      return data.session?.user?.id ?? null;
+    }
 }

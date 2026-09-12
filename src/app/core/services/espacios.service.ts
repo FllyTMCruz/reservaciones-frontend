@@ -17,6 +17,13 @@ export class EspaciosService {
     return this.http.post<Espacio>(`${this.baseUrl}/`, data);
   }
 
+  actualizar(
+    idEspacio: number,
+    data: { nombre_espacio: string; capacidad_maxima: number }
+  ): Observable<Espacio> {
+    return this.http.put<Espacio>(`${this.baseUrl}/${idEspacio}`, data);
+  }
+
   eliminar(idEspacio: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${idEspacio}`);
   }

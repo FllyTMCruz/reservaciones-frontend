@@ -37,3 +37,76 @@
     font-size: 0.9em;
   }
 }
+/* --- Modal genérico (formulario y panel de detalle) --- */
+.fondo-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.tarjeta-modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 25px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.tarjeta-modal h3 { margin-top: 0; color: #333; }
+
+.grupo-input { margin-bottom: 15px; }
+.grupo-input label { display: block; margin-bottom: 5px; font-weight: bold; color: #444; }
+.grupo-input input, .grupo-input select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.fila-doble { display: flex; gap: 10px; }
+.fila-doble .grupo-input { flex: 1; }
+
+.acciones-modal {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.acciones-modal button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-primario { background-color: #0056b3; color: white; }
+.btn-secundario { background-color: #6c757d; color: white; }
+.btn-peligro { background-color: #dc3545; color: white; }
+.btn-confirmar { background-color: #28a745; color: white; }
+
+.mensaje-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.badge-estado {
+  background-color: #e9ecef;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+}

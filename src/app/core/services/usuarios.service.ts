@@ -13,6 +13,14 @@ export class UsuariosService {
     return this.http.get<Usuario[]>(`${this.baseUrl}/`);
   }
 
+  obtenerMiPerfil(): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.baseUrl}/me`);
+  }
+
+  actualizarMiPerfil(nombre: string): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.baseUrl}/me`, { nombre });
+  }
+
   cambiarRol(idUsuario: string, rol: RolUsuario): Observable<Usuario> {
     return this.http.patch<Usuario>(`${this.baseUrl}/${idUsuario}/rol`, { rol });
   }

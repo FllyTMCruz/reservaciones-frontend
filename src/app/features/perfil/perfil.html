@@ -1,0 +1,32 @@
+<div class="contenedor-perfil">
+  <header class="cabecera">
+    <h2>Mi Perfil</h2>
+  </header>
+
+  <p *ngIf="cargando()">Cargando perfil...</p>
+  <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
+  <p *ngIf="mensajeExito()" class="mensaje-exito">{{ mensajeExito() }}</p>
+
+  <div class="tarjeta-perfil" *ngIf="!cargando() && usuario() as u">
+    <div class="grupo-input">
+      <label>Correo electrónico</label>
+      <input type="text" [value]="u.correo" disabled>
+    </div>
+
+    <div class="grupo-input">
+      <label>Rol</label>
+      <input type="text" [value]="u.rol" disabled>
+    </div>
+
+    <form (ngSubmit)="guardarNombre()">
+      <div class="grupo-input">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" [(ngModel)]="nombreEditable" required>
+      </div>
+
+      <button type="submit" class="btn-primario" [disabled]="guardando()">
+        {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
+    </form>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { Administracion } from './features/administracion/administracion';
 import { Calendario } from './features/calendario/calendario';
 import { Login } from './features/auth/login/login';
 import { Registro } from './features/auth/registro/registro';
+import { Perfil } from './features/perfil/perfil';
 
 export const routes: Routes = [
   {
@@ -28,7 +29,13 @@ export const routes: Routes = [
   },
   {
     path: 'espacios',
-    component: Espacios
+    component: Espacios,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'perfil',
+    component: Perfil,
+    canActivate: [authGuard]
   },
   {
     path: 'administracion',
