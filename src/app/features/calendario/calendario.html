@@ -1,95 +1,660 @@
-<div class="contenedor-calendario">
-  <header class="cabecera">
-    <h2>Gestión de Reservaciones</h2>
-    <p>Selecciona una fecha para agendar un nuevo evento, o haz clic en una reservación existente para ver el detalle.</p>
-  </header>
+<!-- =========================================================================
+     HERO SECTION: Panoramic Night Amphitheater & Glass Capsule (Google Stitch)
+     ========================================================================= -->
+<section class="hero-panoramic">
+  <!-- Night Amphitheater Venue Backdrop & Luxury Gradient Overlay -->
+  <div class="hero-backdrop">
+    <img
+      src="/venue-hero.jpg"
+      alt="Exclusivo anfiteatro y jardines iluminados para eventos nocturnos"
+      class="hero-img"
+    />
+    <div class="hero-gradient-overlay"></div>
+  </div>
 
-  <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
-  <p *ngIf="mensajeExito()" class="mensaje-exito">{{ mensajeExito() }}</p>
+  <div class="hero-container">
+    <!-- Top Luminous Badge -->
+    <div class="luminous-badge">
+      <span class="material-symbols-outlined badge-icon">sparkles</span>
+      <span>Portal Premium de Eventos & Convenciones</span>
+      <span class="pulse-indicator"></span>
+    </div>
 
-  <div class="calendario-wrapper">
-    <full-calendar [options]="calendarOptions()"></full-calendar>
+    <!-- Luxury Hero Titles -->
+    <h1 class="hero-headline">
+      Reserva los recintos y salones más exclusivos para tu evento
+    </h1>
+    <p class="hero-subheadline">
+      Disponibilidad en tiempo real, cotización instantánea y confirmación garantizada en espacios de alto nivel.
+    </p>
+
+    <!-- Floating Crisp White & Glass Capsule Search Bar -->
+    <div class="capsule-wrapper">
+      <div class="search-capsule">
+        <!-- Category Quick-Filters -->
+        <div class="category-filters">
+          <button
+            type="button"
+            class="cat-pill"
+            [class.active]="filtroCategoria() === 'todos'"
+            (click)="seleccionarCategoria('todos')"
+          >
+            <span class="material-symbols-outlined cat-icon">stars</span>
+            <span>Todos los Espacios</span>
+          </button>
+          <button
+            type="button"
+            class="cat-pill"
+            [class.active]="filtroCategoria() === 'jardines'"
+            (click)="seleccionarCategoria('jardines')"
+          >
+            <span class="material-symbols-outlined cat-icon text-emerald">park</span>
+            <span>Jardines & Terrazas</span>
+          </button>
+          <button
+            type="button"
+            class="cat-pill"
+            [class.active]="filtroCategoria() === 'auditorios'"
+            (click)="seleccionarCategoria('auditorios')"
+          >
+            <span class="material-symbols-outlined cat-icon text-amber">theater_comedy</span>
+            <span>Auditorios</span>
+          </button>
+          <button
+            type="button"
+            class="cat-pill"
+            [class.active]="filtroCategoria() === 'gala'"
+            (click)="seleccionarCategoria('gala')"
+          >
+            <span class="material-symbols-outlined cat-icon text-gold">wine_bar</span>
+            <span>Salones de Gala</span>
+          </button>
+          <button
+            type="button"
+            class="cat-pill"
+            [class.active]="filtroCategoria() === 'salas'"
+            (click)="seleccionarCategoria('salas')"
+          >
+            <span class="material-symbols-outlined cat-icon text-sky">meeting_room</span>
+            <span>Salas Ejecutivas</span>
+          </button>
+        </div>
+
+        <!-- Segmented Input Controls Row -->
+        <div class="segments-row">
+          <!-- Segment 1: Espacio / Sala -->
+          <div class="capsule-segment segment-space">
+            <div class="segment-icon-box">
+              <span class="material-symbols-outlined">apartment</span>
+            </div>
+            <div class="segment-body">
+              <label class="segment-label">Espacio / Sala</label>
+              <select class="segment-select" [(ngModel)]="formulario.id_espacio">
+                <option [ngValue]="null" disabled>Selecciona un espacio</option>
+                <option *ngFor="let espacio of listaEspacios()" [ngValue]="espacio.id_espacio">
+                  {{ espacio.nombre_espacio }} (máx. {{ espacio.capacidad_maxima }}p)
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="segment-divider"></div>
+
+          <!-- Segment 2: Fecha del Evento -->
+          <div class="capsule-segment segment-date">
+            <div class="segment-icon-box">
+              <span class="material-symbols-outlined">calendar_today</span>
+            </div>
+            <div class="segment-body">
+              <label class="segment-label">Fecha del Evento</label>
+              <input type="date" class="segment-input-date" [(ngModel)]="formulario.fecha" />
+            </div>
+          </div>
+
+          <div class="segment-divider"></div>
+
+          <!-- Segment 3: Horario -->
+          <div class="capsule-segment segment-time">
+            <div class="segment-icon-box">
+              <span class="material-symbols-outlined">schedule</span>
+            </div>
+            <div class="segment-body">
+              <label class="segment-label">Horario</label>
+              <div class="time-range-wrap">
+                <input type="time" class="segment-time-input" [(ngModel)]="formulario.horaInicio" />
+                <span class="time-dash">-</span>
+                <input type="time" class="segment-time-input" [(ngModel)]="formulario.horaFin" />
+              </div>
+            </div>
+          </div>
+
+          <div class="segment-divider"></div>
+
+          <!-- Segment 4: Aforo Estimado -->
+          <div class="capsule-segment segment-guests">
+            <div class="segment-icon-box">
+              <span class="material-symbols-outlined">groups</span>
+            </div>
+            <div class="segment-body">
+              <label class="segment-label">Aforo estimado</label>
+              <input
+                type="number"
+                class="segment-guests-input"
+                min="1"
+                max="300"
+                [(ngModel)]="formulario.invitados_estimados"
+                placeholder="Invitados"
+              />
+            </div>
+          </div>
+
+          <!-- Action CTA -->
+          <div class="capsule-cta-wrap">
+            <button type="button" class="btn-reservar-cta" (click)="guardarDesdeBarra()">
+              <span class="material-symbols-outlined">calendar_add_on</span>
+              <span>Reservar ahora</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Bar beneath Capsule -->
+      <div class="trust-bar">
+        <span class="trust-item">
+          <span class="material-symbols-outlined trust-icon-emerald">check_circle</span>
+          <span>Bloqueo inmediato de fecha</span>
+        </span>
+        <span class="trust-sep">|</span>
+        <span class="trust-item">
+          <span class="material-symbols-outlined trust-icon-amber">star</span>
+          <strong class="font-bold">4.9/5</strong> Calificación de recintos
+        </span>
+        <span class="trust-sep">|</span>
+        <span class="trust-item">
+          <span class="material-symbols-outlined trust-icon-sky">support_agent</span>
+          <span>Soporte y coordinación 24/7</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================================
+     MAIN WORKSPACE: 8-Column Calendar + 4-Column Featured Side Panel
+     ========================================================================= -->
+<div class="workspace-container">
+  <!-- Feedback Alerts -->
+  <div *ngIf="errorMensaje()" class="feedback-alert alert-danger">
+    <span class="material-symbols-outlined">error</span>
+    <span>{{ errorMensaje() }}</span>
+  </div>
+  <div *ngIf="mensajeExito()" class="feedback-alert alert-success">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span>{{ mensajeExito() }}</span>
+  </div>
+
+  <div class="workspace-grid">
+    <!-- Left Column: Interactive Reservation Calendar (8 Cols) -->
+    <div class="main-column">
+      <!-- Calendar Card -->
+      <div class="calendar-card">
+        <!-- Calendar Header Strip & Legend -->
+        <div class="cal-top-strip">
+          <div>
+            <h2 class="cal-title">Calendario de Eventos</h2>
+            <p class="cal-subtitle">
+              Haz clic en cualquier día para ver la agenda horaria o agendar tu evento de inmediato.
+            </p>
+          </div>
+
+          <!-- Legend Pills -->
+          <div class="legend-pills-row">
+            <div class="legend-pill pill-confirmed">
+              <span class="legend-dot dot-confirmed"></span>
+              <span>Confirmado</span>
+            </div>
+            <div class="legend-pill pill-pending">
+              <span class="legend-dot dot-pending"></span>
+              <span>Pendiente</span>
+            </div>
+            <div class="legend-pill pill-cancelled">
+              <span class="legend-dot dot-cancelled"></span>
+              <span>Cancelado</span>
+            </div>
+            <div class="legend-pill pill-free">
+              <span class="legend-dot dot-free"></span>
+              <span>Disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FullCalendar Mount -->
+        <div class="calendar-mount">
+          <full-calendar [options]="calendarOptions()"></full-calendar>
+        </div>
+
+        <!-- Calendar Footer Metadata -->
+        <div class="cal-footer-meta">
+          <div class="meta-left">
+            <span class="material-symbols-outlined meta-icon-emerald">verified</span>
+            <span>Bloqueo temporal de cortesía por 15 minutos en solicitudes en curso</span>
+          </div>
+          <span class="meta-right">{{ eventos().length }} eventos registrados</span>
+        </div>
+      </div>
+
+      <!-- Detailed Schedule Drawer for Selected Day -->
+      <div class="day-schedule-card">
+        <div class="day-header-wrap">
+          <div class="day-left">
+            <div class="day-number-badge">
+              {{ diaSeleccionadoNumero() }}
+            </div>
+            <div>
+              <h3 class="day-title">Horarios & Reservas del {{ fechaSeleccionadaFormateada() }}</h3>
+              <p class="day-desc">
+                {{ eventosDelDia().length }} {{ eventosDelDia().length === 1 ? 'evento programado' : 'eventos programados' }} en esta fecha
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn-add-day-reservation"
+            (click)="abrirModalNuevaReserva()"
+          >
+            <span class="material-symbols-outlined">add_circle</span>
+            <span>Añadir Reserva</span>
+          </button>
+        </div>
+
+        <!-- Slots Grid -->
+        <div class="day-slots-grid">
+          <!-- Existing Events on that Day -->
+          <div
+            *ngFor="let ev of eventosDelDia()"
+            class="slot-card"
+            [class.slot-confirmed]="ev.estado_evento === 'Confirmado'"
+            [class.slot-pending]="ev.estado_evento === 'Pendiente'"
+            [class.slot-cancelled]="ev.estado_evento === 'Cancelado'"
+          >
+            <div class="slot-top">
+              <span class="slot-time">
+                {{ ev.fecha_inicio | date:'HH:mm' }} - {{ ev.fecha_fin | date:'HH:mm' }}
+              </span>
+              <span
+                class="slot-status-pill"
+                [class.pill-confirmed]="ev.estado_evento === 'Confirmado'"
+                [class.pill-pending]="ev.estado_evento === 'Pendiente'"
+                [class.pill-cancelled]="ev.estado_evento === 'Cancelado'"
+              >
+                {{ ev.estado_evento }}
+              </span>
+            </div>
+            <div class="slot-body">
+              <p class="slot-event-title">{{ ev.tipo_evento }}</p>
+              <p class="slot-event-loc">
+                {{ nombreEspacio(ev.id_espacio) }} • {{ ev.invitados_estimados }} personas
+              </p>
+            </div>
+            <div class="slot-footer">
+              <span class="slot-owner-info">
+                {{ esDueno(ev) ? 'Tu reservación' : 'Espacio ocupado' }}
+              </span>
+              <button
+                type="button"
+                class="slot-btn-action"
+                (click)="handleEventClick({ event: { id: ev.id_evento } })"
+              >
+                Ver detalle
+              </button>
+            </div>
+          </div>
+
+          <!-- Free Slot Suggestion -->
+          <div class="slot-card slot-available">
+            <div class="slot-top">
+              <span class="slot-time text-emerald">Franja Disponible</span>
+              <span class="slot-status-pill pill-available">Disponible</span>
+            </div>
+            <div class="slot-body">
+              <p class="slot-event-title">Organiza tu próximo evento</p>
+              <p class="slot-event-loc">Salones, auditorios y jardines listos para cotizar</p>
+            </div>
+            <div class="slot-footer pt-1">
+              <button
+                type="button"
+                class="btn-book-slot"
+                (click)="abrirModalNuevaReserva()"
+              >
+                Reservar esta fecha
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Featured Spaces Side Panel (4 Cols) -->
+    <aside class="sidebar-column">
+      <!-- Panel Header -->
+      <div class="sidebar-top-bar">
+        <div>
+          <h2 class="sidebar-heading">Espacios Destacados</h2>
+          <p class="sidebar-subheading">Recintos más solicitados este trimestre</p>
+        </div>
+        <a routerLink="/espacios" class="link-see-all">Ver todos ({{ listaEspacios().length }})</a>
+      </div>
+
+      <!-- Card 1: Featured Outdoor & Amphitheater Space with Real Photo -->
+      <div class="space-card-featured" *ngIf="listaEspacios().length > 0">
+        <div class="space-img-cover">
+          <img
+            src="/venue-hero.jpg"
+            alt="Jardín Los Robles & Anfiteatro"
+            class="space-cover-photo"
+          />
+          <div class="cover-gradient"></div>
+          <div class="badge-tag-photo">Exterior & Bodas</div>
+          <div class="cover-bottom-row">
+            <span class="badge-exclusive">Exclusivo</span>
+            <span class="badge-rating">
+              <span class="material-symbols-outlined star-icon-fill">star</span>
+              <span>4.9 (84 reseñas)</span>
+            </span>
+          </div>
+        </div>
+        <div class="space-card-content">
+          <div>
+            <h3 class="space-name-title">{{ listaEspacios()[0].nombre_espacio }}</h3>
+            <p class="space-short-desc">Área verde privada • Iluminación escénica & carpa</p>
+          </div>
+          <!-- Amenity Chips -->
+          <div class="amenities-row">
+            <span class="amenity-chip">
+              <span class="material-symbols-outlined">groups</span> Cap. {{ listaEspacios()[0].capacidad_maxima }}p
+            </span>
+            <span class="amenity-chip">
+              <span class="material-symbols-outlined">lightbulb</span> Iluminación de cuento
+            </span>
+            <span class="amenity-chip">
+              <span class="material-symbols-outlined">surround_sound</span> Sonido Atmos
+            </span>
+            <span class="amenity-chip">
+              <span class="material-symbols-outlined">restaurant</span> Catering VIP
+            </span>
+          </div>
+          <!-- Card Action -->
+          <div class="space-bottom-action">
+            <div>
+              <span class="rate-label">Disponibilidad</span>
+              <span class="rate-val">Inmediata</span>
+            </div>
+            <button
+              type="button"
+              class="btn-card-schedule"
+              (click)="reservarEspacio(listaEspacios()[0].id_espacio)"
+            >
+              Agendar aquí
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Spaces from Database -->
+      <div class="space-secondary-card" *ngFor="let espacio of listaEspacios().slice(1)">
+        <div class="sec-card-body">
+          <div class="sec-card-header">
+            <h4 class="sec-space-name">{{ espacio.nombre_espacio }}</h4>
+            <span class="sec-capacity-tag">
+              <span class="material-symbols-outlined">groups</span>
+              <span>{{ espacio.capacidad_maxima }}p</span>
+            </span>
+          </div>
+          <p class="sec-space-desc">Disponible para conferencias, recepciones y banquetes ejecutivos.</p>
+          <div class="sec-card-footer">
+            <span class="sec-status-text">
+              <span class="dot-active"></span>
+              <span>Listo para reservar</span>
+            </span>
+            <button
+              type="button"
+              class="btn-sec-schedule"
+              (click)="reservarEspacio(espacio.id_espacio)"
+            >
+              Agendar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Special Logistics Callout Box with Luxury Glow -->
+      <div class="special-callout-card">
+        <div class="glow-orb"></div>
+        <div class="callout-header">
+          <span class="material-symbols-outlined callout-icon">support_agent</span>
+          <h4 class="callout-title">¿Requieres un montaje especial?</h4>
+        </div>
+        <p class="callout-desc">
+          Nuestro equipo de ingeniería y logística para eventos puede adaptar la disposición de silletería, iluminación y catering corporativo personalizado.
+        </p>
+        <button
+          type="button"
+          class="btn-callout-contact"
+          (click)="abrirModalNuevaReserva()"
+        >
+          <span class="material-symbols-outlined">chat</span>
+          <span>Contactar a un Asesor de Eventos</span>
+        </button>
+      </div>
+    </aside>
   </div>
 </div>
 
-<!-- Formulario de crear/editar reservación -->
-<div class="fondo-modal" *ngIf="mostrarFormulario()">
-  <div class="tarjeta-modal">
-    <h3>{{ modoEdicion() ? 'Editar reservación' : 'Nueva reservación' }}</h3>
-
-    <form (ngSubmit)="guardarReservacion()">
-      <div class="grupo-input">
-        <label for="fecha">Fecha</label>
-        <input type="date" id="fecha" name="fecha" [(ngModel)]="formulario.fecha" required>
-      </div>
-
-      <div class="fila-doble">
-        <div class="grupo-input">
-          <label for="horaInicio">Hora de inicio</label>
-          <input type="time" id="horaInicio" name="horaInicio" [(ngModel)]="formulario.horaInicio" required>
+<!-- =========================================================================
+     MODAL: Crear / Editar Reservación (Frosted Glass & Luxury Styling)
+     ========================================================================= -->
+<div class="modal-backdrop-layer" *ngIf="mostrarFormulario()">
+  <div class="modal-window">
+    <div class="modal-top">
+      <div class="modal-title-box">
+        <div class="modal-icon-container">
+          <span class="material-symbols-outlined modal-heading-icon">
+            {{ modoEdicion() ? 'edit_calendar' : 'calendar_add_on' }}
+          </span>
         </div>
-        <div class="grupo-input">
-          <label for="horaFin">Hora de fin</label>
-          <input type="time" id="horaFin" name="horaFin" [(ngModel)]="formulario.horaFin" required>
+        <div>
+          <h3 class="modal-main-title">
+            {{ modoEdicion() ? 'Editar Reservación' : 'Nueva Reservación' }}
+          </h3>
+          <p class="modal-sub-title">Completa los detalles de tu evento para verificar disponibilidad</p>
         </div>
       </div>
+      <button type="button" class="btn-close-window" (click)="cerrarFormulario()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
 
-      <div class="grupo-input">
-        <label for="espacio">Espacio</label>
-        <select id="espacio" name="espacio" [(ngModel)]="formulario.id_espacio" required>
-          <option [ngValue]="null" disabled>Selecciona un espacio</option>
-          <option *ngFor="let espacio of listaEspacios()" [ngValue]="espacio.id_espacio">
-            {{ espacio.nombre_espacio }} (máx. {{ espacio.capacidad_maxima }})
-          </option>
-        </select>
+    <form (ngSubmit)="guardarReservacion()" class="modal-form-content">
+      <div class="form-row-grid">
+        <div class="form-field">
+          <label for="fechaModal" class="field-label">Fecha del evento</label>
+          <input
+            type="date"
+            id="fechaModal"
+            name="fechaModal"
+            [(ngModel)]="formulario.fecha"
+            required
+            class="field-input"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="espacioModal" class="field-label">Espacio / Recinto</label>
+          <select
+            id="espacioModal"
+            name="espacioModal"
+            [(ngModel)]="formulario.id_espacio"
+            required
+            class="field-input"
+          >
+            <option [ngValue]="null" disabled>Selecciona un espacio</option>
+            <option *ngFor="let espacio of listaEspacios()" [ngValue]="espacio.id_espacio">
+              {{ espacio.nombre_espacio }} (cap. máx: {{ espacio.capacidad_maxima }}p)
+            </option>
+          </select>
+        </div>
       </div>
 
-      <div class="grupo-input">
-        <label for="tipoEvento">Tipo de evento</label>
-        <input type="text" id="tipoEvento" name="tipoEvento" [(ngModel)]="formulario.tipo_evento"
-               placeholder="Ej. Boda, graduación, junta de trabajo" required>
+      <div class="form-row-grid">
+        <div class="form-field">
+          <label for="horaInicioModal" class="field-label">Hora de inicio</label>
+          <input
+            type="time"
+            id="horaInicioModal"
+            name="horaInicioModal"
+            [(ngModel)]="formulario.horaInicio"
+            required
+            class="field-input"
+          />
+        </div>
+        <div class="form-field">
+          <label for="horaFinModal" class="field-label">Hora de fin</label>
+          <input
+            type="time"
+            id="horaFinModal"
+            name="horaFinModal"
+            [(ngModel)]="formulario.horaFin"
+            required
+            class="field-input"
+          />
+        </div>
       </div>
 
-      <div class="grupo-input">
-        <label for="invitados">Invitados estimados</label>
-        <input type="number" id="invitados" name="invitados" [(ngModel)]="formulario.invitados_estimados"
-               min="1" max="300" required>
+      <div class="form-row-grid">
+        <div class="form-field">
+          <label for="tipoEventoModal" class="field-label">Tipo de evento / Título</label>
+          <input
+            type="text"
+            id="tipoEventoModal"
+            name="tipoEventoModal"
+            [(ngModel)]="formulario.tipo_evento"
+            placeholder="Ej. Boda Ramos, Conferencia Tech, Asamblea"
+            required
+            class="field-input"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="invitadosModal" class="field-label">Invitados estimados (1 - 300)</label>
+          <input
+            type="number"
+            id="invitadosModal"
+            name="invitadosModal"
+            [(ngModel)]="formulario.invitados_estimados"
+            min="1"
+            max="300"
+            required
+            class="field-input"
+          />
+        </div>
       </div>
 
-      <p *ngIf="errorFormulario()" class="error-auth">{{ errorFormulario() }}</p>
+      <div *ngIf="errorFormulario()" class="feedback-alert alert-danger mt-2">
+        <span class="material-symbols-outlined">error</span>
+        <span>{{ errorFormulario() }}</span>
+      </div>
 
-      <div class="acciones-modal">
-        <button type="button" class="btn-secundario" (click)="cerrarFormulario()">Cancelar</button>
-        <button type="submit" class="btn-primario" [disabled]="guardandoReservacion()">
-          {{ guardandoReservacion() ? 'Guardando...' : (modoEdicion() ? 'Guardar cambios' : 'Reservar') }}
+      <div class="modal-button-strip">
+        <button type="button" class="btn-modal-cancel" (click)="cerrarFormulario()">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-modal-submit" [disabled]="guardandoReservacion()">
+          <span class="material-symbols-outlined" *ngIf="!guardandoReservacion()">check</span>
+          <span>{{ guardandoReservacion() ? 'Guardando...' : (modoEdicion() ? 'Guardar Cambios' : 'Confirmar Reservación') }}</span>
         </button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- Panel de detalle de una reservación -->
-<div class="fondo-modal" *ngIf="eventoSeleccionado() as evento">
-  <div class="tarjeta-modal">
-    <h3>{{ evento.tipo_evento }}</h3>
-    <p><strong>Espacio:</strong> {{ nombreEspacio(evento.id_espacio) }}</p>
-    <p><strong>Inicio:</strong> {{ evento.fecha_inicio | date:'medium' }}</p>
-    <p><strong>Fin:</strong> {{ evento.fecha_fin | date:'medium' }}</p>
-    <p><strong>Invitados estimados:</strong> {{ evento.invitados_estimados }}</p>
-    <p><strong>Estado:</strong> <span class="badge-estado">{{ evento.estado_evento }}</span></p>
-
-    <div class="acciones-modal" *ngIf="esDueno(evento)">
-      <button class="btn-secundario" (click)="abrirEdicion(evento)" [disabled]="procesandoDetalle()">Editar</button>
-      <button class="btn-peligro" (click)="cancelarReservacion(evento)" [disabled]="procesandoDetalle()">Cancelar reservación</button>
+<!-- =========================================================================
+     MODAL: Detalle de Evento
+     ========================================================================= -->
+<div class="modal-backdrop-layer" *ngIf="eventoSeleccionado() as evento">
+  <div class="modal-window">
+    <div class="modal-top">
+      <div class="modal-title-box">
+        <div class="modal-icon-container">
+          <span class="material-symbols-outlined modal-heading-icon">event_available</span>
+        </div>
+        <div>
+          <h3 class="modal-main-title">{{ evento.tipo_evento }}</h3>
+          <p class="modal-sub-title">Ficha informativa y gestión del evento</p>
+        </div>
+      </div>
+      <button type="button" class="btn-close-window" (click)="cerrarDetalle()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
     </div>
 
-    <div class="acciones-modal" *ngIf="esGestion()">
-      <button class="btn-confirmar" (click)="cambiarEstado(evento, 'Confirmado')" [disabled]="procesandoDetalle()">Confirmar</button>
-      <button class="btn-peligro" (click)="cambiarEstado(evento, 'Cancelado')" [disabled]="procesandoDetalle()">Cancelar (gestión)</button>
+    <div class="modal-detail-body">
+      <div class="detail-item-row">
+        <span class="detail-label-title">Espacio asignado:</span>
+        <span class="detail-val-text font-bold">{{ nombreEspacio(evento.id_espacio) }}</span>
+      </div>
+      <div class="detail-item-row">
+        <span class="detail-label-title">Horario reservado:</span>
+        <span class="detail-val-text">{{ evento.fecha_inicio | date:'dd/MM/yyyy HH:mm' }} a {{ evento.fecha_fin | date:'HH:mm' }}</span>
+      </div>
+      <div class="detail-item-row">
+        <span class="detail-label-title">Invitados estimados:</span>
+        <span class="detail-val-text">{{ evento.invitados_estimados }} personas</span>
+      </div>
+      <div class="detail-item-row">
+        <span class="detail-label-title">Estado de la reservación:</span>
+        <span
+          class="legend-pill"
+          [class.pill-confirmed]="evento.estado_evento === 'Confirmado'"
+          [class.pill-pending]="evento.estado_evento === 'Pendiente'"
+          [class.pill-cancelled]="evento.estado_evento === 'Cancelado'"
+        >
+          <span
+            class="legend-dot"
+            [class.dot-confirmed]="evento.estado_evento === 'Confirmado'"
+            [class.dot-pending]="evento.estado_evento === 'Pendiente'"
+            [class.dot-cancelled]="evento.estado_evento === 'Cancelado'"
+          ></span>
+          <span>{{ evento.estado_evento }}</span>
+        </span>
+      </div>
+
+      <!-- Acciones de Cliente dueño -->
+      <div class="actions-strip" *ngIf="esDueno(evento)">
+        <button class="btn-edit-slot" (click)="abrirEdicion(evento)" [disabled]="procesandoDetalle()">
+          <span class="material-symbols-outlined">edit</span>
+          <span>Editar reservación</span>
+        </button>
+        <button class="btn-cancel-slot" (click)="cancelarReservacion(evento)" [disabled]="procesandoDetalle()">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Cancelar reservación</span>
+        </button>
+      </div>
+
+      <!-- Acciones de Coordinación / Administración -->
+      <div class="actions-strip" *ngIf="esGestion()">
+        <button class="btn-confirm-slot" (click)="cambiarEstado(evento, 'Confirmado')" [disabled]="procesandoDetalle()">
+          <span class="material-symbols-outlined">check_circle</span>
+          <span>Confirmar Evento</span>
+        </button>
+        <button class="btn-reject-slot" (click)="cambiarEstado(evento, 'Cancelado')" [disabled]="procesandoDetalle()">
+          <span class="material-symbols-outlined">cancel</span>
+          <span>Rechazar / Cancelar</span>
+        </button>
+      </div>
     </div>
 
-    <div class="acciones-modal">
-      <button type="button" class="btn-secundario" (click)="cerrarDetalle()">Cerrar</button>
+    <div class="modal-footer-strip">
+      <button type="button" class="btn-modal-cancel" (click)="cerrarDetalle()">Cerrar</button>
     </div>
   </div>
 </div>

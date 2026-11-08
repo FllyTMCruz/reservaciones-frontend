@@ -1,1 +1,204 @@
-/* You can add global styles to this file, and also import other style files */
+/* ==========================================================================
+   ReservApp - Design System (Google Stitch x Booking.com Aesthetic)
+   ========================================================================== */
+
+:root {
+  /* Brand Colors */
+  --primary-navy: #003580;
+  --primary-navy-dark: #00224f;
+  --primary-navy-hover: #002660;
+  --accent-gold: #febb02;
+  --accent-gold-hover: #e5a802;
+  --primary-blue: #006ce4;
+  --primary-blue-hover: #0056b3;
+
+  /* Surfaces & Neutrals */
+  --surface-bg: #f5f7fa;
+  --surface-card: #ffffff;
+  --surface-container: #ebedf7;
+  --surface-container-low: #f1f3fc;
+  --border-subtle: #e7e7e7;
+  --text-main: #181c22;
+  --text-muted: #595959;
+  --text-subtle: #74777f;
+
+  /* Status Colors */
+  --status-pending-bg: #fef3c7;
+  --status-pending-text: #b45309;
+  --status-pending-border: #fde68a;
+
+  --status-confirmed-bg: #d1fae5;
+  --status-confirmed-text: #065f46;
+  --status-confirmed-border: #a7f3d0;
+
+  --status-cancelled-bg: #ffe4e6;
+  --status-cancelled-text: #9f1239;
+  --status-cancelled-border: #fecdd3;
+
+  /* Typography */
+  --font-display: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 53, 128, 0.15);
+  --shadow-floating: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-capsule: 0 20px 50px -10px rgba(0, 15, 45, 0.35), 0 0 35px -5px rgba(254, 187, 2, 0.2);
+}
+
+/* Glassmorphism & Transparencies (Google Stitch Aesthetic) */
+.glass-panel {
+  background: rgba(10, 27, 61, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-capsule {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-capsule);
+}
+
+.glass-subtle {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-active-pill {
+  background: rgba(254, 187, 2, 0.2);
+  border: 1px solid rgba(254, 187, 2, 0.6);
+  color: var(--accent-gold);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--surface-bg);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--text-main);
+  font-weight: 700;
+  margin-top: 0;
+}
+
+/* Material Symbols alignment */
+.material-symbols-outlined {
+  vertical-align: middle;
+  line-height: 1;
+}
+
+/* FullCalendar Custom Theme to match Booking / Stitch */
+.fc {
+  font-family: var(--font-body) !important;
+}
+
+.fc .fc-toolbar {
+  margin-bottom: 1.25rem !important;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.fc .fc-toolbar-title {
+  font-family: var(--font-display) !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  color: var(--primary-navy) !important;
+}
+
+.fc .fc-button-primary {
+  background-color: #ffffff !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-main) !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.85rem !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: all 0.2s ease !important;
+  text-transform: capitalize !important;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: var(--surface-container-low) !important;
+  border-color: #ccc !important;
+  color: var(--primary-navy) !important;
+}
+
+.fc .fc-button-primary:disabled {
+  background-color: #f8f9fa !important;
+  border-color: var(--border-subtle) !important;
+  color: #adb5bd !important;
+}
+
+.fc .fc-button-active {
+  background-color: var(--primary-navy) !important;
+  border-color: var(--primary-navy) !important;
+  color: #ffffff !important;
+}
+
+.fc .fc-col-header-cell {
+  background-color: var(--surface-container-low);
+  padding: 0.5rem 0;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-color: var(--border-subtle) !important;
+}
+
+.fc .fc-daygrid-day {
+  border-color: var(--border-subtle) !important;
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+}
+
+.fc .fc-daygrid-day:hover {
+  background-color: #f8fafd;
+}
+
+.fc .fc-daygrid-day-number {
+  font-weight: 700;
+  color: var(--text-main);
+  padding: 0.35rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.fc .fc-day-today {
+  background-color: #f0f6ff !important;
+}
+
+.fc .fc-day-today .fc-daygrid-day-number {
+  color: var(--primary-navy);
+}
+
+.fc-event {
+  border-radius: 6px !important;
+  padding: 2px 6px !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 2px !important;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fc-event:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12) !important;
+}

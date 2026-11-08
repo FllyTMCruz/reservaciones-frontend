@@ -11,8 +11,16 @@ import { Perfil } from './features/perfil/perfil';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'calendario',
     pathMatch: 'full'
+  },
+  {
+    path: 'calendario',
+    component: Calendario
+  },
+  {
+    path: 'espacios',
+    component: Espacios
   },
   {
     path: 'login',
@@ -21,16 +29,6 @@ export const routes: Routes = [
   {
     path: 'registro',
     component: Registro
-  },
-  {
-    path: 'calendario',
-    component: Calendario,
-    canActivate: [authGuard]
-  },
-  {
-    path: 'espacios',
-    component: Espacios,
-    canActivate: [authGuard]
   },
   {
     path: 'perfil',

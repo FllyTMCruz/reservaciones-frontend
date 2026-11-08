@@ -1,21 +1,51 @@
-<nav class="navbar">
-  <div class="logo">
-    <h3>📅 ReservApp</h3>
+<header class="navbar-header">
+  <div class="navbar-container">
+    <!-- Brand Logo -->
+    <a routerLink="/calendario" class="brand-link">
+      <div class="brand-title-wrap">
+        <div class="logo-box">
+          <span class="material-symbols-outlined logo-icon">calendar_month</span>
+        </div>
+        <span class="brand-name">ReservApp</span>
+      </div>
+      <span class="brand-subtitle">Central de Reservas de Espacios</span>
+    </a>
+
+    <!-- Navigation Pills -->
+    <nav class="nav-menu">
+      <a routerLink="/calendario" routerLinkActive="activo">
+        <span class="active-dot"></span>
+        <span>Calendario</span>
+      </a>
+      <a routerLink="/espacios" routerLinkActive="activo">Espacios</a>
+      <a *ngIf="estaAutenticado()" routerLink="/perfil" routerLinkActive="activo">Mi perfil</a>
+      <a *ngIf="estaAutenticado() && rolUsuario() === 'Administración'" routerLink="/administracion" routerLinkActive="activo">Administración</a>
+    </nav>
+
+    <!-- User & Session Actions (Booking.com & Stitch style) -->
+    <div class="user-actions">
+      <!-- Si el usuario está autenticado -->
+      <ng-container *ngIf="estaAutenticado(); else botonesInvitado">
+        <div class="role-badge" *ngIf="rolUsuario()">
+          <span class="material-symbols-outlined badge-icon">verified_user</span>
+          <span>{{ rolUsuario() }}</span>
+        </div>
+        <button class="btn-cerrar" (click)="cerrarSesion()">
+          <span class="material-symbols-outlined btn-icon">logout</span>
+          <span>Cerrar sesión</span>
+        </button>
+      </ng-container>
+
+      <!-- Si es un visitante no autenticado (Estilo Booking.com) -->
+      <ng-template #botonesInvitado>
+        <a routerLink="/registro" class="btn-registro-nav">
+          Hazte una cuenta
+        </a>
+        <a routerLink="/login" class="btn-login-nav">
+          <span class="material-symbols-outlined btn-icon">lock</span>
+          <span>Iniciar sesión</span>
+        </a>
+      </ng-template>
+    </div>
   </div>
-
-  <ul class="nav-links">
-    <li><a routerLink="/calendario" routerLinkActive="activo">Calendario</a></li>
-    <li><a routerLink="/espacios" routerLinkActive="activo">Espacios</a></li>
-    <li><a routerLink="/perfil" routerLinkActive="activo">Mi perfil</a></li>
-
-    <!-- Esta pestaña SOLO existe si el usuario es Administración -->
-    <li *ngIf="rolUsuario === 'Administración'">
-      <a routerLink="/administracion" routerLinkActive="activo">Administración</a>
-    </li>
-  </ul>
-
-  <div class="user-menu">
-    <span class="badge">{{ rolUsuario }}</span>
-    <button class="btn-cerrar-sesion" (click)="cerrarSesion()">Cerrar sesión</button>
-  </div>
-</nav>
+</header>

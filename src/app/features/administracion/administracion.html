@@ -1,40 +1,83 @@
-<div class="contenedor-admin">
-  <header class="cabecera">
-    <h2>Panel de Administración</h2>
-    <p>Gestión global de usuarios y asignación de roles del sistema.</p>
+<div class="admin-container">
+  <header class="admin-header">
+    <div>
+      <div class="breadcrumb-tag">
+        <span class="material-symbols-outlined">admin_panel_settings</span>
+        <span>Panel de Control</span>
+      </div>
+      <h2 class="header-title">Gestión de Usuarios</h2>
+      <p class="header-desc">Control de accesos y asignación de permisos a nivel de base de datos para la plataforma ReservApp.</p>
+    </div>
+    <div class="users-count-badge" *ngIf="!cargando()">
+      <span class="material-symbols-outlined">group</span>
+      <span>{{ usuarios().length }} usuarios registrados</span>
+    </div>
   </header>
 
-  <p *ngIf="cargando()">Cargando usuarios...</p>
-  <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
+  <div *ngIf="cargando()" class="loading-state">
+    <span class="material-symbols-outlined spin-icon">sync</span>
+    <span>Cargando directorio de usuarios...</span>
+  </div>
 
-  <div class="tabla-responsive" *ngIf="!cargando() && !errorMensaje()">
-    <table class="tabla-usuarios">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Correo Electrónico</th>
-          <th>Rol Actual</th>
-          <th>Cambiar Rol</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of usuarios()">
-          <td>{{ user.nombre }}</td>
-          <td>{{ user.correo }}</td>
-          <td>
-            <span class="badge" [ngClass]="user.rol.toLowerCase()">
-              {{ user.rol }}
-            </span>
-          </td>
-          <td>
-            <select #selectRol (change)="cambiarRol(user.id_usuario, selectRol.value)" [value]="user.rol">
-              <option value="Cliente">Cliente</option>
-              <option value="Coordinador">Coordinador</option>
-              <option value="Administración">Administración</option>
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="errorMensaje()" class="alert-box alert-error">
+    <span class="material-symbols-outlined">error</span>
+    <span>{{ errorMensaje() }}</span>
+  </div>
+
+  <div class="card-table-wrapper" *ngIf="!cargando() && !errorMensaje()">
+    <div class="table-responsive">
+      <table class="tabla-usuarios">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Correo Electrónico</th>
+            <th>Rol Vigente</th>
+            <th>Acción / Asignar Rol</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of usuarios()">
+            <td>
+              <div class="user-cell">
+                <div class="user-avatar-small">
+                  <span class="material-symbols-outlined">person</span>
+                </div>
+                <div class="user-info-text">
+                  <span class="user-name">{{ user.nombre }}</span>
+                  <span class="user-id">ID: {{ user.id_usuario | slice:0:8 }}...</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="email-text">{{ user.correo }}</span>
+            </td>
+            <td>
+              <span class="role-pill" [ngClass]="{
+                'role-admin': user.rol === 'Administración',
+                'role-coord': user.rol === 'Coordinador',
+                'role-client': user.rol === 'Cliente'
+              }">
+                <span class="dot" [ngClass]="{
+                  'dot-admin': user.rol === 'Administración',
+                  'dot-coord': user.rol === 'Coordinador',
+                  'dot-client': user.rol === 'Cliente'
+                }"></span>
+                <span>{{ user.rol }}</span>
+              </span>
+            </td>
+            <td>
+              <div class="select-role-wrapper">
+                <select #selectRol (change)="cambiarRol(user.id_usuario, selectRol.value)" [value]="user.rol" class="select-role">
+                  <option value="Cliente">Cliente</option>
+                  <option value="Coordinador">Coordinador</option>
+                  <option value="Administración">Administración</option>
+                </select>
+                <span class="material-symbols-outlined select-arrow">expand_more</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

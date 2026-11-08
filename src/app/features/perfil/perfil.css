@@ -1,46 +1,283 @@
-.contenedor-perfil {
-  padding: 20px;
-  max-width: 500px;
+/* ==========================================================================
+   Perfil Styles (Google Stitch x Booking.com)
+   ========================================================================== */
+
+.perfil-container {
+  max-width: 1000px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
+  padding: 2.5rem 1.5rem 4rem 1.5rem;
 }
 
-.cabecera h2 { margin: 0 0 20px 0; color: #333; }
+.perfil-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
 
-.tarjeta-perfil {
-  background-color: #ffffff;
-  padding: 25px;
+.breadcrumb-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary-blue);
+  margin-bottom: 0.35rem;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-navy);
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+}
+
+.header-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.perfil-card-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.card-user-info {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-avatar-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--primary-navy);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 53, 128, 0.25);
+}
+
+.user-avatar-icon {
+  font-size: 40px;
+}
+
+.user-display-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 0.25rem 0;
+}
+
+.user-display-email {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 1rem 0;
+}
+
+.role-pill-wrap {
+  margin-bottom: 1.5rem;
+}
+
+.account-security-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  background-color: var(--surface-container-low);
+  padding: 0.75rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  border: 1px solid #e0e0e0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: left;
+  line-height: 1.35;
 }
 
-.grupo-input { margin-bottom: 15px; }
-.grupo-input label { display: block; margin-bottom: 5px; font-weight: bold; color: #444; }
-.grupo-input input {
+.account-security-note .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--primary-navy);
+  margin-top: 1px;
+}
+
+.card-edit-form {
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.form-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--surface-container-low);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.form-card-header h4 {
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--primary-navy);
+}
+
+.form-body {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+}
+
+.form-control {
   width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  background-color: #ffffff;
 }
-.grupo-input input:disabled { background-color: #f1f1f1; color: #666; }
 
-.btn-primario {
-  padding: 10px 15px;
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 108, 228, 0.15);
+}
+
+.form-control-disabled {
+  background-color: var(--surface-bg);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.btn-save-perfil {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--primary-navy);
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: bold;
-  background-color: #0056b3;
-  color: white;
+  transition: all 0.2s ease;
 }
-.btn-primario:hover { opacity: 0.8; }
 
-.mensaje-exito {
-  background-color: #d4edda;
-  color: #155724;
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-bottom: 15px;
+.btn-save-perfil:hover {
+  background-color: var(--primary-navy-hover);
+}
+
+.btn-save-perfil:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.legend-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.pill-confirmed {
+  background-color: var(--status-confirmed-bg);
+  color: var(--status-confirmed-text);
+  border: 1px solid var(--status-confirmed-border);
+}
+
+.pill-pending {
+  background-color: var(--status-pending-bg);
+  color: var(--status-pending-text);
+  border: 1px solid var(--status-pending-border);
+}
+
+.pill-cancelled {
+  background-color: var(--surface-container-low);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 2rem 0;
+}
+
+.spin-icon {
+  animation: spin 1.2s linear infinite;
+  color: var(--primary-navy);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.alert-box {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.alert-error {
+  background-color: var(--status-cancelled-bg);
+  color: var(--status-cancelled-text);
+  border: 1px solid var(--status-cancelled-border);
+}
+
+.alert-success {
+  background-color: var(--status-confirmed-bg);
+  color: var(--status-confirmed-text);
+  border: 1px solid var(--status-confirmed-border);
+}
+
+@media (max-width: 768px) {
+  .perfil-card-layout {
+    grid-template-columns: 1fr;
+  }
 }

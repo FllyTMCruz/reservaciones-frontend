@@ -1,32 +1,83 @@
-<div class="contenedor-perfil">
-  <header class="cabecera">
-    <h2>Mi Perfil</h2>
+<div class="perfil-container">
+  <header class="perfil-header">
+    <div class="breadcrumb-tag">
+      <span class="material-symbols-outlined">account_circle</span>
+      <span>Cuenta de Usuario</span>
+    </div>
+    <h2 class="header-title">Mi Perfil</h2>
+    <p class="header-desc">Consulta tus datos de acceso, rol asignado en la organización y edita tu nombre de visualización.</p>
   </header>
 
-  <p *ngIf="cargando()">Cargando perfil...</p>
-  <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
-  <p *ngIf="mensajeExito()" class="mensaje-exito">{{ mensajeExito() }}</p>
+  <div *ngIf="cargando()" class="loading-state">
+    <span class="material-symbols-outlined spin-icon">sync</span>
+    <span>Cargando tu perfil...</span>
+  </div>
 
-  <div class="tarjeta-perfil" *ngIf="!cargando() && usuario() as u">
-    <div class="grupo-input">
-      <label>Correo electrónico</label>
-      <input type="text" [value]="u.correo" disabled>
-    </div>
+  <div *ngIf="errorMensaje()" class="alert-box alert-error">
+    <span class="material-symbols-outlined">error</span>
+    <span>{{ errorMensaje() }}</span>
+  </div>
+  <div *ngIf="mensajeExito()" class="alert-box alert-success">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span>{{ mensajeExito() }}</span>
+  </div>
 
-    <div class="grupo-input">
-      <label>Rol</label>
-      <input type="text" [value]="u.rol" disabled>
-    </div>
-
-    <form (ngSubmit)="guardarNombre()">
-      <div class="grupo-input">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" [(ngModel)]="nombreEditable" required>
+  <div class="perfil-card-layout" *ngIf="!cargando() && usuario() as u">
+    <!-- User Overview Card -->
+    <div class="card-user-info">
+      <div class="user-avatar-wrap">
+        <span class="material-symbols-outlined user-avatar-icon">person</span>
+      </div>
+      <h3 class="user-display-name">{{ u.nombre }}</h3>
+      <p class="user-display-email">{{ u.correo }}</p>
+      
+      <div class="role-pill-wrap">
+        <span class="legend-pill" [ngClass]="{
+          'pill-confirmed': u.rol === 'Administración',
+          'pill-pending': u.rol === 'Coordinador',
+          'pill-cancelled': u.rol === 'Cliente'
+        }">
+          <span class="material-symbols-outlined text-[14px]">shield_person</span>
+          <span>Rol: {{ u.rol }}</span>
+        </span>
       </div>
 
-      <button type="submit" class="btn-primario" [disabled]="guardando()">
-        {{ guardando() ? 'Guardando...' : 'Guardar cambios' }}
-      </button>
-    </form>
+      <div class="account-security-note">
+        <span class="material-symbols-outlined">lock</span>
+        <span>Autenticado de forma segura a través de Supabase Auth con token JWT.</span>
+      </div>
+    </div>
+
+    <!-- Edit Form Card -->
+    <div class="card-edit-form">
+      <div class="form-card-header">
+        <span class="material-symbols-outlined text-primary-navy">badge</span>
+        <h4>Datos Personales</h4>
+      </div>
+
+      <form (ngSubmit)="guardarNombre()" class="form-body">
+        <div class="form-group">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" [(ngModel)]="nombreEditable" required class="form-control" />
+        </div>
+
+        <div class="form-group">
+          <label>Correo electrónico (Gestionado por Supabase Auth)</label>
+          <input type="text" [value]="u.correo" disabled class="form-control form-control-disabled" />
+        </div>
+
+        <div class="form-group">
+          <label>Rol asignado en la plataforma</label>
+          <input type="text" [value]="u.rol" disabled class="form-control form-control-disabled" />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-save-perfil" [disabled]="guardando()">
+            <span class="material-symbols-outlined" *ngIf="!guardando()">save</span>
+            <span>{{ guardando() ? 'Guardando...' : 'Guardar Cambios' }}</span>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

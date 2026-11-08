@@ -1,50 +1,114 @@
-<div class="contenedor-espacios">
-  <header class="cabecera">
-    <h2>Espacios Disponibles</h2>
-    <button *ngIf="puedeEditar()" class="btn-primario" (click)="abrirCreacion()">
-      + Crear Nuevo Espacio
+<div class="espacios-container">
+  <!-- Page Header -->
+  <header class="espacios-header">
+    <div>
+      <div class="breadcrumb-tag">
+        <span class="material-symbols-outlined">domain</span>
+        <span>Catálogo de Locaciones</span>
+      </div>
+      <h2 class="header-title">Espacios Disponibles</h2>
+      <p class="header-desc">Administra y consulta las capacidades y disponibilidad de los salones y recintos para eventos.</p>
+    </div>
+
+    <button *ngIf="puedeEditar()" class="btn-crear-espacio" (click)="abrirCreacion()">
+      <span class="material-symbols-outlined">add_circle</span>
+      <span>Registrar Espacio</span>
     </button>
   </header>
 
-  <p *ngIf="cargando()">Cargando espacios...</p>
-  <p *ngIf="errorMensaje()" class="error-auth">{{ errorMensaje() }}</p>
-  <p *ngIf="mensajeExito()" class="mensaje-exito">{{ mensajeExito() }}</p>
+  <!-- Alerts -->
+  <div *ngIf="cargando()" class="loading-state">
+    <span class="material-symbols-outlined spin-icon">sync</span>
+    <span>Cargando catálogo de espacios...</span>
+  </div>
 
+  <div *ngIf="errorMensaje()" class="alert-box alert-error">
+    <span class="material-symbols-outlined">error</span>
+    <span>{{ errorMensaje() }}</span>
+  </div>
+  <div *ngIf="mensajeExito()" class="alert-box alert-success">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span>{{ mensajeExito() }}</span>
+  </div>
+
+  <!-- Spaces Grid -->
   <div class="grid-espacios" *ngIf="!cargando()">
     <div class="tarjeta-espacio" *ngFor="let espacio of listaEspacios()">
-      <h3>{{ espacio.nombre_espacio }}</h3>
-      <p class="capacidad"><strong>Capacidad:</strong> {{ espacio.capacidad_maxima }} personas</p>
+      <div class="espacio-card-header">
+        <div class="espacio-icon-wrap">
+          <span class="material-symbols-outlined">meeting_room</span>
+        </div>
+        <span class="badge-capacity">
+          <span class="material-symbols-outlined">groups</span>
+          <span>Capacidad: {{ espacio.capacidad_maxima }} personas</span>
+        </span>
+      </div>
 
-      <div class="acciones" *ngIf="puedeEditar()">
-        <button class="btn-secundario" (click)="abrirEdicion(espacio)">Editar</button>
-        <button class="btn-peligro" (click)="eliminarEspacio(espacio)">Eliminar</button>
+      <div class="espacio-card-body">
+        <h3 class="espacio-nombre">{{ espacio.nombre_espacio }}</h3>
+        <p class="espacio-detalles">
+          Locación acondicionada con mobiliario, control de accesos e infraestructura para eventos corporativos, académicos y sociales.
+        </p>
+
+        <div class="specs-chips">
+          <span class="spec-chip"><span class="material-symbols-outlined">ac_unit</span> Climatizado</span>
+          <span class="spec-chip"><span class="material-symbols-outlined">wifi</span> Red WiFi</span>
+          <span class="spec-chip"><span class="material-symbols-outlined">volume_up</span> Sistema Audio</span>
+        </div>
+      </div>
+
+      <div class="espacio-card-footer" *ngIf="puedeEditar()">
+        <button class="btn-action-edit" (click)="abrirEdicion(espacio)">
+          <span class="material-symbols-outlined">edit</span>
+          <span>Editar</span>
+        </button>
+        <button class="btn-action-delete" (click)="eliminarEspacio(espacio)">
+          <span class="material-symbols-outlined">delete</span>
+          <span>Eliminar</span>
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Formulario de crear/editar espacio -->
-<div class="fondo-modal" *ngIf="mostrarFormulario()">
-  <div class="tarjeta-modal">
-    <h3>{{ modoEdicion() ? 'Editar espacio' : 'Nuevo espacio' }}</h3>
+<!-- =========================================================================
+     MODAL: Crear / Editar Espacio
+     ========================================================================= -->
+<div class="modal-backdrop" *ngIf="mostrarFormulario()">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <span class="material-symbols-outlined modal-icon">{{ modoEdicion() ? 'edit' : 'add_business' }}</span>
+        <h3>{{ modoEdicion() ? 'Editar Espacio' : 'Nuevo Espacio' }}</h3>
+      </div>
+      <button type="button" class="btn-close-modal" (click)="cerrarFormulario()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
 
-    <form (ngSubmit)="guardarEspacio()">
-      <div class="grupo-input">
-        <label for="nombreEspacio">Nombre del espacio</label>
-        <input type="text" id="nombreEspacio" name="nombreEspacio" [(ngModel)]="formulario.nombre_espacio" required>
+    <form (ngSubmit)="guardarEspacio()" class="modal-form">
+      <div class="form-group">
+        <label for="nombreEspacio">Nombre del espacio / recinto</label>
+        <input type="text" id="nombreEspacio" name="nombreEspacio" [(ngModel)]="formulario.nombre_espacio"
+               placeholder="Ej. Auditorio Principal, Salón Ejecutivo" required class="form-control" />
       </div>
 
-      <div class="grupo-input">
-        <label for="capacidad">Capacidad máxima</label>
-        <input type="number" id="capacidad" name="capacidad" [(ngModel)]="formulario.capacidad_maxima" min="1" max="300" required>
+      <div class="form-group">
+        <label for="capacidad">Capacidad máxima (1 a 300 personas)</label>
+        <input type="number" id="capacidad" name="capacidad" [(ngModel)]="formulario.capacidad_maxima"
+               min="1" max="300" required class="form-control" />
       </div>
 
-      <p *ngIf="errorFormulario()" class="error-auth">{{ errorFormulario() }}</p>
+      <div *ngIf="errorFormulario()" class="alert-box alert-error">
+        <span class="material-symbols-outlined">error</span>
+        <span>{{ errorFormulario() }}</span>
+      </div>
 
-      <div class="acciones-modal">
-        <button type="button" class="btn-secundario" (click)="cerrarFormulario()">Cancelar</button>
-        <button type="submit" class="btn-primario" [disabled]="guardando()">
-          {{ guardando() ? 'Guardando...' : 'Guardar' }}
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" (click)="cerrarFormulario()">Cancelar</button>
+        <button type="submit" class="btn-save" [disabled]="guardando()">
+          <span class="material-symbols-outlined" *ngIf="!guardando()">check</span>
+          <span>{{ guardando() ? 'Guardando...' : 'Guardar Espacio' }}</span>
         </button>
       </div>
     </form>

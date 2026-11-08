@@ -1,109 +1,391 @@
-.contenedor-espacios {
-  padding: 20px;
-  max-width: 1200px;
+/* ==========================================================================
+   Espacios Styles (Google Stitch x Booking.com)
+   ========================================================================== */
+
+.espacios-container {
+  max-width: 1280px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
+  padding: 2.5rem 1.5rem 4rem 1.5rem;
 }
 
-.cabecera {
+.espacios-header {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.breadcrumb-tag {
+  display: inline-flex;
   align-items: center;
-  margin-bottom: 20px;
-  flex-wrap: wrap; /* Permite que el botón baje en celulares si no cabe */
-  gap: 15px;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary-blue);
+  margin-bottom: 0.35rem;
+}
+
+.breadcrumb-tag .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-navy);
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+}
+
+.header-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 650px;
+  margin: 0;
+}
+
+.btn-crear-espacio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: var(--primary-navy);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 53, 128, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-crear-espacio:hover {
+  background-color: var(--primary-navy-hover);
+  transform: translateY(-1px);
 }
 
 .grid-espacios {
   display: grid;
-  /* Magia Responsive: Crea columnas de mínimo 300px que se expanden */
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
 }
 
 .tarjeta-espacio {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  background-color: #ffffff;
-  transition: transform 0.2s;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.2s ease;
 }
 
 .tarjeta-espacio:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
 }
 
-.tarjeta-espacio h3 {
-  margin-top: 0;
-  color: #333;
-}
-
-.acciones {
-  margin-top: 20px;
+.espacio-card-header {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.25rem 0.75rem 1.25rem;
 }
 
-/* Estilos de botones (Idealmente luego se moverán a shared/styles.css) */
-button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: opacity 0.2s;
-}
-button:hover { opacity: 0.8; }
-
-.btn-primario { background-color: #0056b3; color: white; }
-.btn-secundario { background-color: #6c757d; color: white; }
-.btn-peligro { background-color: #dc3545; color: white; }
-/* --- Modal genérico (formulario de espacio) --- */
-.fondo-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+.espacio-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: var(--surface-container-low);
+  color: var(--primary-navy);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 20px;
 }
 
-.tarjeta-modal {
-  background: #fff;
-  border-radius: 8px;
-  padding: 25px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+.badge-capacity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: var(--status-confirmed-bg);
+  color: var(--status-confirmed-text);
+  border: 1px solid var(--status-confirmed-border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
-.tarjeta-modal h3 { margin-top: 0; color: #333; }
-
-.grupo-input { margin-bottom: 15px; }
-.grupo-input label { display: block; margin-bottom: 5px; font-weight: bold; color: #444; }
-.grupo-input input {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
+.badge-capacity .material-symbols-outlined {
+  font-size: 15px;
 }
 
-.acciones-modal {
+.espacio-card-body {
+  padding: 0.75rem 1.25rem 1.25rem 1.25rem;
+  flex: 1;
+}
+
+.espacio-nombre {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.espacio-detalles {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-bottom: 1rem;
+}
+
+.specs-chips {
   display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
-.mensaje-exito {
-  background-color: #d4edda;
-  color: #155724;
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-bottom: 15px;
+.spec-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--surface-bg);
+  color: var(--text-muted);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.spec-chip .material-symbols-outlined {
+  font-size: 13px;
+  color: var(--primary-blue);
+}
+
+.espacio-card-footer {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.85rem 1.25rem;
+  background-color: var(--surface-bg);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.btn-action-edit {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  background-color: #ffffff;
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-action-edit:hover {
+  background-color: var(--surface-container-low);
+  border-color: #cbd5e1;
+}
+
+.btn-action-delete {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  background-color: transparent;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-action-delete:hover {
+  background-color: #fef2f2;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 2rem 0;
+}
+
+.spin-icon {
+  animation: spin 1.2s linear infinite;
+  color: var(--primary-navy);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Modals styles reused from common definitions */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 24, 60, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1.5rem;
+}
+
+.modal-card {
+  background-color: var(--surface-card);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  box-shadow: var(--shadow-floating);
+  border: 1px solid var(--border-subtle);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--surface-container-low);
+}
+
+.modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-icon {
+  font-size: 22px;
+  color: var(--primary-navy);
+}
+
+.modal-header h3 {
+  font-size: 1.15rem;
+  margin: 0;
+  color: var(--primary-navy);
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+}
+
+.modal-form {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  background-color: #ffffff;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 108, 228, 0.15);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.btn-cancel {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-save {
+  background-color: var(--primary-navy);
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-save:hover {
+  background-color: var(--primary-navy-hover);
+}
+
+.alert-box {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.15rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.alert-error {
+  background-color: var(--status-cancelled-bg);
+  color: var(--status-cancelled-text);
+  border: 1px solid var(--status-cancelled-border);
+}
+
+.alert-success {
+  background-color: var(--status-confirmed-bg);
+  color: var(--status-confirmed-text);
+  border: 1px solid var(--status-confirmed-border);
 }
